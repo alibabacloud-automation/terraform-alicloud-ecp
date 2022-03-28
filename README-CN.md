@@ -3,7 +3,7 @@ Terraform module which creates and manages cloud phone instances and configures 
 terraform-alicloud-ecp
 =====================================================================
 
-[English](README.md) | 简体中文
+[English](https://github.com/terraform-alicloud-modules/terraform-alicloud-ecp/blob/main/README.md) | 简体中文
 
 本 Module 用于在阿里云的 VPC 下创建和管理云手机实例以及为其配置密钥，包含：`ECP`。
 
@@ -17,14 +17,19 @@ terraform-alicloud-ecp
 ```hcl
 module "example" {
   source            = "terraform-alicloud-modules/ecp/alicloud"
-  name              = "tf-ecp"
-  description       = "tf-ecp"
+  #alicloud_ecp_key_pair
+  create_key_pair   = true
+  key_pair_name     = "tf-test-ecp"
+  public_key_body   = "ssh-rsa AAAAB3Nza12345678qwertyuudsfsg"
+  #alicloud_ecp_instance
+  create_instance   = true
+  instance_name     = "tf-test-ecp"
+  description       = "tf-test-ecp"
   instance_type     = "ecp.ce.large"
   image_id          = "your-image-id"
   security_group_id = "sg-abc12345"
   vswitch_id        = "vsw-abc12345"
   vnc_password      = "Cp1234"
-  public_key_body   = "ssh-rsa AAAAB3Nza12345678qwertyuudsfsg"
 }
 ```
 
@@ -41,7 +46,7 @@ module "example" {
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | > = 1.0.11 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | > = 0.13 |
 | <a name="requirement_alicloud"></a> [alicloud](#requirement\_alicloud) | > = 1.58.0 |
 
 ## Providers
