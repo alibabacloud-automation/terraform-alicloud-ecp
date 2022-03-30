@@ -15,5 +15,6 @@ resource "alicloud_ecp_instance" "instance" {
   instance_type     = var.instance_type
   vnc_password      = var.vnc_password
   status            = var.status
+  payment_type      = var.payment_type
 }
 
