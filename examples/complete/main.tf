@@ -1,6 +1,8 @@
-data "alicloud_ecp_zones" "default" {}
+data "alicloud_ecp_zones" "default" {
+}
 
-data "alicloud_ecp_instance_types" "default" {}
+data "alicloud_ecp_instance_types" "default" {
+}
 
 module "vpc" {
   source             = "alibaba/vpc/alicloud"
@@ -32,10 +34,9 @@ module "example" {
   description       = var.description
   security_group_id = module.security_group.this_security_group_id
   vswitch_id        = module.vpc.this_vswitch_ids[0]
-  image_id          = "android_9_0_0_release_2851157_20211201.vhd"
+  image_id          = "android-image-4854254release_a11_23_1031.raw"
   instance_type     = data.alicloud_ecp_instance_types.default.instance_types.0.instance_type
   vnc_password      = var.vnc_password
   payment_type      = var.payment_type
   status            = var.status
-
 }
