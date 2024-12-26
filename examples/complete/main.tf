@@ -1,3 +1,7 @@
+provider "alicloud" {
+  region = "cn-hangzhou"
+}
+
 data "alicloud_ecp_zones" "default" {
 }
 
@@ -5,23 +9,26 @@ data "alicloud_ecp_instance_types" "default" {
 }
 
 module "vpc" {
-  source             = "alibaba/vpc/alicloud"
+  source  = "alibaba/vpc/alicloud"
+  version = "~> 1.11"
+
   create             = true
   vpc_name           = "tf-test-ecp"
   vpc_cidr           = "172.16.0.0/16"
   vswitch_name       = "tf-test-ecp"
   vswitch_cidrs      = ["172.16.0.0/21"]
-  availability_zones = [data.alicloud_ecp_zones.default.zones.0.zone_id]
+  availability_zones = [data.alicloud_ecp_zones.default.zones[0].zone_id]
 }
 
 module "security_group" {
-  source = "alibaba/security-group/alicloud"
+  source  = "alibaba/security-group/alicloud"
+  version = "~> 2.4"
+
   vpc_id = module.vpc.this_vpc_id
 }
 
 module "example" {
   source = "../.."
-
 
   #alicloud_ecp_key_pair
   create_key_pair = true
@@ -35,7 +42,7 @@ module "example" {
   security_group_id = module.security_group.this_security_group_id
   vswitch_id        = module.vpc.this_vswitch_ids[0]
   image_id          = "android-image-4854254release_a11_23_1031.raw"
-  instance_type     = data.alicloud_ecp_instance_types.default.instance_types.0.instance_type
+  instance_type     = data.alicloud_ecp_instance_types.default.instance_types[0].instance_type
   vnc_password      = var.vnc_password
   payment_type      = var.payment_type
   status            = var.status
